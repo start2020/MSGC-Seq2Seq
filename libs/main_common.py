@@ -53,7 +53,7 @@ def test_model(args):
     graph = tf.get_default_graph()  # 获取当前默认计算图
 
 
-    if args.model == "RMASTGRU":
+    if args.model == "MSGC_Seq2Seq":
         samples = graph.get_tensor_by_name("samples:0")
         labels = graph.get_tensor_by_name("lables:0")
         is_training = graph.get_tensor_by_name("is_training:0")
@@ -68,7 +68,7 @@ def test_model(args):
     M = data[0].shape[0]
 
     # print("M==",M)
-    if args.model in ["RMASTGRU"]:
+    if args.model in ["MSGC_Seq2Seq"]:
         for data_index in range(int((M - 1) / test_batch)):
             feed_dict = {}
             for i in range(len(placeholders)):  # 生成 (1,N,N)的数据,解决OOM问题.为了加快速度可以增大,但是需要考虑对齐
@@ -87,7 +87,7 @@ def test_model(args):
 
 
 
-    if args.model in ["RMASTGRU"]:
+    if args.model in ["MSGC_Seq2Seq"]:
         labels_all = np.transpose(np.squeeze(data[0],axis=-1),[0,2,1])
         labels_all = labels_all[:preds_all.shape[0]] # 只截取一部分,用于计算指标
         preds_all = np.transpose(preds_all,[0,2,1])
@@ -109,8 +109,8 @@ def test_model(args):
 
 
 def choose_model(args):
-    if args.model == "RMASTGRU":
-        import models.RMASTGRU as model
+    if args.model == "MSGC_Seq2Seq":
+        import models.MSGC_Seq2Seq as model
     return  model
 
 def experiment(args):
@@ -126,7 +126,7 @@ def experiment(args):
     # 模型编译
     utils.log_string(train_log, 'compiling model...')
 
-    if args.model == "RMASTGRU":
+    if args.model == "MSGC_Seq2Seq":
         # X: (V,B,P,N,1), Y: (V,B,Q,N,1)
         P, Q, N= data[0]['arr_1'].shape[-3], data[0]['arr_0'].shape[-3], data[0]['arr_0'].shape[-2]
         F_in, F_out = data[0]['arr_1'].shape[-1],data[0]['arr_0'].shape[-1]
@@ -311,7 +311,7 @@ def get_feed_dicts(args, type, data, placeholders):
     for j in per:
         feed_dict = {}
         for i in range(len(placeholders)):
-            if args.model in ["GMAN","DCRNN","RMASTGRU"]:
+            if args.model in ["GMAN","DCRNN","MSGC_Seq2Seq"]:
                 if i == len(placeholders) - 1:
                     if type == "train":
                         feed_dict[placeholders[i]] = True

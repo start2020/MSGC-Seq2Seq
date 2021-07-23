@@ -169,7 +169,7 @@ def weight_matrix(file_path, sigma2=0.1, epsilon=0.5, scaling=True):
         print("save W successfully")
         return W
 
-######################################  RMASTGRU ##############################
+######################################  MSGC_Seq2Seq ##############################
 
 # adj_mx:ndarray, L:ndarray
 def transform(adj_mx, filter_type="laplacian"):

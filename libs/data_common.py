@@ -93,7 +93,7 @@ def data_process(args):
     np.savez_compressed(file_name, mean = mean, std = std)
     utils.log_string(data_log, "mean:{},std:{}".format(mean, std))
 
-    if args.model in ['RMASTGRU']:
+    if args.model in ['MSGC_Seq2Seq']:
         # adjacent matrix
         data_path = os.path.join(args.dataset_dir, "all_models", utils.input_pattern(args))  # 路径
         TE_name = "TE_%s_%s.npz" % (str(args.data_steps.split("-")[0]), str(args.features[1]))
@@ -178,7 +178,7 @@ def save_dataslipt(args, data_dir, data):
     types = ['train', 'val', 'test']
     for i in range(len(types)):
         file_name = os.path.join(data_dir, types[i])
-        if args.model in ["RMASTGRU"]:
+        if args.model in ["MSGC_Seq2Seq"]:
             np.savez_compressed(file_name, data[i][0], data[i][1])
         else:
             raise ValueError

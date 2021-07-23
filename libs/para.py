@@ -50,7 +50,7 @@ def common_para(parser):
     return parser
 
 
-def RMASTGRU(parser):
+def MSGC_Seq2Seq(parser):
 
 
     parser.add_argument('--H', default=2, type=int) # 1,2,3,4,5
@@ -60,7 +60,7 @@ def RMASTGRU(parser):
     parser.add_argument('--units_gcn', default="64-64", type=str)#2,4,6,8,16
     parser.add_argument('--Ks_gcn', default=[2, 2], type=list)
 
-    parser.add_argument('--model', default='RMASTGRU', type=str)
+    parser.add_argument('--model', default='MSGC_Seq2Seq', type=str)
     parser.add_argument('--graph_pkl', default='adj_mx_metr.pkl', type=str)
     parser.add_argument('--D', default=256, type=int)# 16 32...256
     parser.add_argument('--T', default=288, type=int)
